@@ -53,4 +53,3 @@ class Game:
             self.screen.blit(BG, (image_with + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
-
