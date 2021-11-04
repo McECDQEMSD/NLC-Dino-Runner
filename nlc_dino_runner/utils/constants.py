@@ -1,6 +1,9 @@
 import pygame
 import os
 
+
+TITTLE = "Chrome Dino Runner"
+
 # Global Constants
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
@@ -40,8 +43,7 @@ DUCKING_SHIELD = [
 
 DUCKING_HAMMER = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
-]
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),]
 
 SMALL_CACTUS = [
     pygame.image.load(os.path.join(IMG_DIR, "Cactus/SmallCactus1.png")),
@@ -66,5 +68,7 @@ HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
+
+ICON = pygame.image.load.(os.path.join(IMG_DIR, 'DinoWallpaper.png'))
 
 DEFAULT_TYPE = "default"
