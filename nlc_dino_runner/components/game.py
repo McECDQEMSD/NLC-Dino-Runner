@@ -1,5 +1,5 @@
 import pygame
-
+from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from nlc_dino_runner.utils.constants import (TITTLE, ICON, SCREEN_WIDTH, SCREEN_HEIGHT, BG, FPS)
@@ -18,6 +18,39 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player = Dinosaur()
         self.obstacle = ObstacleManager()
+        self.points = 0
+
+    def score(self):
+        self.points += 1
+        if self.points % 20 == 0:
+            self.game_speed += 1
+        score_element, score_element_rec = text_utils.get_score_element(self.points, )
+        self.screen.blit(score_element, score_element_rec)
+
+    def show_menu(self):
+        white_color = (255, 255, 255)
+        self.screen.fill(white_color)
+        self.print_menu_elements()
+        pygame.display.update()
+        self.handle_key_events_on_menu()
+
+    def print_menu_elements(self):
+        half_width = SCREEN_WIDTH // 2
+        half_heigth = SCREEN_HEIGHT //2
+        text_element, text_element_rec = text_utils.get_centered_message('Press any key to start', )
+        self.screen.blit(text_element, text_element_rec)
+        self.screen.blit(ICON, (half_width - 40, half_heigth -150))
+
+    def handle_key_events_on_menu(self):
+        for events in pygame.event.get():
+            if events.type == pygame.QUIT:
+                self.running = False
+                self.playing = False
+                pygame.display.quit()
+                pygame.quit()
+                exit()
+            if events.type == pygame.KEYDOWN:
+                self.run()
 
     def run(self):
         self.playing = True
@@ -25,7 +58,13 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+
+
+    def execute(self):
+        self.running = True
+        while self.running:
+            if not self.playing:
+                self.show_menu()
 
 
     def events(self):
@@ -45,6 +84,7 @@ class Game:
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle.draw(self.screen)
+        self.score()
         pygame.display.update()
         pygame.display.flip()
 
