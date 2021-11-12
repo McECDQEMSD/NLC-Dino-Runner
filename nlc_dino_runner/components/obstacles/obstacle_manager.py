@@ -9,9 +9,9 @@ class ObstacleManager:
     def __init__(self):
         self.obstacle = []
 
-    def update(self):
-        if len(self.obstacles) == 0:
-            self.obstacles.append(Cactus(SMALL_CACTUS))
+    def update(self, game):
+        if len(self.obstacle) == 0:
+            self.obstacle.append(Cactus(SMALL_CACTUS))
 
         for obstacle in self.obstacle:
             obstacle.update(self.obstacle)
@@ -21,5 +21,5 @@ class ObstacleManager:
                 break
 
     def draw(self, screen):
-        for obstacle in self.obstacles:
+        for obstacle in self.obstacle:
             obstacle.draw(screen)
