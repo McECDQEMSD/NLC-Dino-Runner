@@ -17,3 +17,8 @@ def get_centered_message(message, width = SCREEN_WIDTH // 2 , height = SCREEN_HE
     text_rect = text.get_rect()
     text_rect.center = (width, height)
     return text, text_rect
+
+def principal_and_second_menu(self):
+    self principal_menu =
+        while principal_menu: text_element, text_element_rec = text_utils.get_centered_message('Press any key to start', )
+            self.screen.blit(text_element, text_element_rec)

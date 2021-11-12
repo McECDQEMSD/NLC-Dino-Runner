@@ -6,6 +6,7 @@ from nlc_dino_runner.utils.constants import (TITTLE, ICON, SCREEN_WIDTH, SCREEN_
 
 class Game:
     def __init__(self):
+        self.principal_and_second_menu = 0
         pygame.init()
         self.playing = False
         pygame.display.set_caption(TITTLE)
@@ -19,6 +20,7 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         self.points = 0
         self.death_count = 0
+        self.principal_and_second_menu
 
     def score(self):
         self.points += 1
@@ -37,8 +39,7 @@ class Game:
     def print_menu_elements(self):
         half_width = SCREEN_WIDTH // 2
         half_heigth = SCREEN_HEIGHT //2
-        text_element, text_element_rec = text_utils.get_centered_message('Press any key to start', )
-        self.screen.blit(text_element, text_element_rec)
+        self.principal_and_second_menu = self.principal_menu
         text_element, text_element_rec = text_utils.get_centered_message('Death Count: ' + str(self.death_count), height = half_heigth + 50)
         self.screen.blit(text_element, text_element_rec)
         self.screen.blit(ICON, (half_width - 40, half_heigth -150))
