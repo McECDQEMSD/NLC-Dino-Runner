@@ -1,4 +1,6 @@
 import pygame
+
+from nlc_dino_runner.components.powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstacle_manager import ObstacleManager
@@ -6,7 +8,6 @@ from nlc_dino_runner.utils.constants import (TITTLE, ICON, SCREEN_WIDTH, SCREEN_
 
 class Game:
     def __init__(self):
-        self.principal_and_second_menu = 0
         pygame.init()
         self.playing = False
         pygame.display.set_caption(TITTLE)
@@ -18,9 +19,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.power_up_manager = PowerUpManager
         self.points = 0
         self.death_count = 0
-        self.principal_and_second_menu
 
     def score(self):
         self.points += 1
@@ -39,10 +40,15 @@ class Game:
     def print_menu_elements(self):
         half_width = SCREEN_WIDTH // 2
         half_heigth = SCREEN_HEIGHT //2
-        self.principal_and_second_menu = self.principal_menu
-        text_element, text_element_rec = text_utils.get_centered_message('Death Count: ' + str(self.death_count), height = half_heigth + 50)
-        self.screen.blit(text_element, text_element_rec)
-        self.screen.blit(ICON, (half_width - 40, half_heigth -150))
+        if self.death_count == 0:
+            text_element, text_element_rec = text_utils.get_centered_message('Press any key to Start')
+            self.screen.blit(text_element, text_element_rec)
+        else:
+            text_element, text_element_rec = text_utils.get_centered_message('Press any key to Restart')
+            self.screen.blit(text_element, text_element_rec)
+            text_element, text_element_rec = text_utils.get_centered_message('Deaths: ' +str(self.death_count), height= 350)
+            self.screen.blit(text_element, text_element_rec)
+        self.screen.blit(ICON, (half_width - 40, half_heigth - 150))
 
     def handle_key_events_on_menu(self):
         for events in pygame.event.get():
@@ -81,6 +87,7 @@ class Game:
         user_imput = pygame.key.get_pressed()
         self.player.update(user_imput)
         self.obstacle_manager.update(self)
+        self.power_up_manager.update(self.points, self.game_speed, self.player)
 
 
     def draw(self):
@@ -90,6 +97,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.score()
+        self.power_up_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
