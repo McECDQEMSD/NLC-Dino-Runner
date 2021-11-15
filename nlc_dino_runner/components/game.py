@@ -19,7 +19,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
-        self.power_up_manager = PowerUpManager
+        self.power_up_manager = PowerUpManager()
         self.points = 0
         self.death_count = 0
 
@@ -29,6 +29,7 @@ class Game:
             self.game_speed += 1
         score_element, score_element_rec = text_utils.get_score_element(self.points, )
         self.screen.blit(score_element, score_element_rec)
+        self.player.check_invincibility(self.screen)
 
     def show_menu(self):
         white_color = (255, 255, 255)
