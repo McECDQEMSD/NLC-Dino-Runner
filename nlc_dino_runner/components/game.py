@@ -4,7 +4,9 @@ from nlc_dino_runner.components.powerups.power_up_manager import PowerUpManager
 from nlc_dino_runner.utils import text_utils
 from nlc_dino_runner.components.dinosaur import Dinosaur
 from nlc_dino_runner.components.obstacles.obstacle_manager import ObstacleManager
-from nlc_dino_runner.utils.constants import (TITTLE, ICON, SCREEN_WIDTH, SCREEN_HEIGHT, BG, FPS)
+from nlc_dino_runner.utils.constants import (TITTLE, ICON, SCREEN_WIDTH, SCREEN_HEIGHT, BG, FPS, GAME_SPEED)
+from nlc_dino_runner.components.heards.dino_lives import Hearts
+
 
 class Game:
     def __init__(self):
@@ -14,19 +16,24 @@ class Game:
         pygame.display.set_icon(ICON)
         self.screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
         self.x_pos_bg = 0
-        self.y_pos_bg = 380
-        self.game_speed = 30
+        self.y_pos_bg = 400
+        self.game_speed = GAME_SPEED
         self.clock = pygame.time.Clock()
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
+        self.dino_lives = Hearts()
         self.points = 0
         self.death_count = 0
+        self.running = False
+        self.death_count = 0
+        self.death_count_print = False
 
     def score(self):
         self.points += 1
-        if self.points % 10 == 0:
-            self.game_speed += 1
+        if self.points % 20 == 0:
+            self.game_speed += .5
+
         score_element, score_element_rec = text_utils.get_score_element(self.points, )
         self.screen.blit(score_element, score_element_rec)
         self.player.check_invincibility(self.screen)
@@ -58,13 +65,11 @@ class Game:
                 self.playing = False
                 pygame.display.quit()
                 pygame.quit()
-                exit()
             if events.type == pygame.KEYDOWN:
                 self.run()
 
     def run(self):
         self.points = 0
-        self.obstacle_manager.reset_obstacles()
         self.playing = True
         while self.playing:
             self.events()
@@ -97,8 +102,9 @@ class Game:
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-        self.score()
         self.power_up_manager.draw(self.screen)
+        self.dino_lives.draw_hearts(self.screen)
+        self.score()
         pygame.display.update()
         pygame.display.flip()
 
